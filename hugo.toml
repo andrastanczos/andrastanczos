@@ -14,3 +14,8 @@ title = "András Tánczos"
     [markup.goldmark.renderer]
       unsafe = true
 
+[imaging]
+  [imaging.exif]
+    disableDate = false
+    disableLatLong = true
+    includeFields = "FNumber|ExposureTime|ISOSpeedRatings|FocalLength"

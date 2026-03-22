@@ -7,14 +7,16 @@
   {{- with $img.Exif -}}
     {{- $parts := slice -}}
     {{- with .Tags.FNumber -}}
-      {{- $parts = $parts | append (printf "ƒ/%.4g" .) -}}
+      {{- $parts = $parts | append (printf "ƒ/%.4g" (float .)) -}}
     {{- end -}}
     {{- with .Tags.ExposureTime -}}
       {{- $val := float . -}}
       {{- if gt $val 0.0 -}}
         {{- if lt $val 1.0 -}}
-          {{- $parts = $parts | append (printf "1/%ds" (int (math.Round (div 1.0 $val)))) -}}
-        {{- else -}}
+          {{- $denom := math.Round (div 1.0 $val) -}}
+          {{- $parts = $parts | append (printf "1/%ds" (int $denom)) -}}
+        {{- end -}}
+        {{- if ge $val 1.0 -}}
           {{- $parts = $parts | append (printf "%.4gs" $val) -}}
         {{- end -}}
       {{- end -}}
@@ -23,8 +25,7 @@
       {{- $parts = $parts | append (printf "ISO %v" .) -}}
     {{- end -}}
     {{- with .Tags.FocalLength -}}
-      {{- $val := float . -}}
-      {{- $parts = $parts | append (printf "%dmm" (int (math.Round $val))) -}}
+      {{- $parts = $parts | append (printf "%dmm" (int (math.Round (float .)))) -}}
     {{- end -}}
     {{- $exif = delimit $parts " · " -}}
   {{- end -}}
