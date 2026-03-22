@@ -1,0 +1,11 @@
+{{ define "main" }}
+<div class="about-view visible">
+  <div class="about-content">
+    <h1>About</h1>
+    {{ .Content }}
+    <div class="about-links">
+      <a href="mailto:{{ .Site.Params.email }}">Email</a>
+    </div>
+  </div>
+</div>
+{{ end }}

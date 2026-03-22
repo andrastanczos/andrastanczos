@@ -1,0 +1,30 @@
+{{ define "main" }}
+<div class="category-header">
+  <h1>{{ .Title }}</h1>
+</div>
+
+{{ range .Pages }}
+  <article class="entry-card">
+    <a href="{{ .Permalink }}">
+      <div class="entry-cover">
+        {{ $cover := .Resources.GetMatch "cover.*" }}
+        {{ if $cover }}
+          {{ $resized := $cover.Fit "1600x1000 q85" }}
+          <img src="{{ $resized.RelPermalink }}" alt="{{ .Title }}" loading="lazy">
+        {{ else }}
+          {{ $images := .Resources.Match "*.{jpg,jpeg,png,webp}" }}
+          {{ if $images }}
+            {{ $first := index $images 0 }}
+            {{ $resized := $first.Fit "1600x1000 q85" }}
+            <img src="{{ $resized.RelPermalink }}" alt="{{ .Title }}" loading="lazy">
+          {{ end }}
+        {{ end }}
+      </div>
+    </a>
+    <div class="entry-card-meta">
+      <a href="{{ .Permalink }}" class="entry-card-title">{{ .Title }}</a>
+      <span class="entry-card-date">{{ .Date.Format "02.01.2006" }}</span>
+    </div>
+  </article>
+{{ end }}
+{{ end }}

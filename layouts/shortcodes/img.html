@@ -1,0 +1,33 @@
+{{- $filename := .Get 0 -}}
+{{- $caption := .Get 1 -}}
+{{- $exif := "" -}}
+{{- $img := .Page.Resources.GetMatch $filename -}}
+{{- if $img -}}
+  {{- $resized := $img.Fit "1800x1800 q90" -}}
+  {{- with $img.Exif -}}
+    {{- $parts := slice -}}
+    {{- with .Tags.FNumber -}}
+      {{- $parts = $parts | append (printf "ƒ/%.4g" .) -}}
+    {{- end -}}
+    {{- with .Tags.ExposureTime -}}
+      {{- if lt . 1.0 -}}
+        {{- $parts = $parts | append (printf "1/%ds" (int (math.Round (div 1.0 .)))) -}}
+      {{- else -}}
+        {{- $parts = $parts | append (printf "%.4gs" .) -}}
+      {{- end -}}
+    {{- end -}}
+    {{- with .Tags.ISOSpeedRatings -}}
+      {{- $parts = $parts | append (printf "ISO %d" (int .)) -}}
+    {{- end -}}
+    {{- with .Tags.FocalLength -}}
+      {{- $parts = $parts | append (printf "%dmm" (int (math.Round .))) -}}
+    {{- end -}}
+    {{- $exif = delimit $parts " · " -}}
+  {{- end -}}
+  <figure class="series-image"{{ with $exif }} data-exif="{{ . }}"{{ end }}>
+    <img src="{{ $resized.RelPermalink }}" alt="{{ with $caption }}{{ . }}{{ else }}{{ $filename }}{{ end }}" loading="lazy">
+    {{- with $caption }}
+    <figcaption>{{ . }}</figcaption>
+    {{- end }}
+  </figure>
+{{- end -}}

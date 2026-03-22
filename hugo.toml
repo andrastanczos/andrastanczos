@@ -1,0 +1,16 @@
+baseURL = "https://andrastanczos.com/"
+languageCode = "en"
+title = "András Tánczos"
+
+[params]
+  description = "Street photography from Cluj-Napoca and wherever the road goes."
+  email = "tanczos.and@gmail.com"
+
+[taxonomies]
+  category = "categories"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+

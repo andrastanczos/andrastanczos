@@ -1,0 +1,17 @@
+{{ define "main" }}
+<a class="back-link" href="{{ if .Params.categories }}{{ (index .Params.categories 0) | urlize | printf "/categories/%s/" }}{{ else }}/{{ end }}" onclick="history.back(); return false;">Back</a>
+
+<div class="entry-header">
+  <h1>{{ .Title }}</h1>
+  <div class="entry-header-meta">
+    {{ with .Params.categories }}
+      <span>{{ index . 0 }}</span>
+    {{ end }}
+    <span>{{ .Date.Format "02.01.2006" }}</span>
+  </div>
+</div>
+
+<div class="entry-body">
+  {{ .Content }}
+</div>
+{{ end }}

@@ -1,0 +1,22 @@
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-top">
+    <a class="site-title" href="/">{{ .Site.Title }}</a>
+
+    <nav class="sidebar-nav">
+      <a class="nav-link{{ if .IsHome }} active{{ end }}" href="/">All</a>
+      {{ range .Site.Taxonomies.categories }}
+        {{ $name := .Page.Title }}
+        {{ $url := .Page.Permalink }}
+        <a class="nav-link{{ if eq $.Title $name }} active{{ end }}" href="{{ $url }}">{{ $name }}</a>
+      {{ end }}
+
+      <div class="nav-divider"></div>
+
+      <a class="nav-link{{ if eq .Title "About" }} active{{ end }}" href="/about/">About</a>
+    </nav>
+  </div>
+
+  <div class="sidebar-bottom">
+    © {{ now.Year }}
+  </div>
+</aside>
