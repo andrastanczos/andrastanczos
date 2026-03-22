@@ -9,10 +9,6 @@
         {{ $url := .Page.Permalink }}
         <a class="nav-link{{ if eq $.Title $name }} active{{ end }}" href="{{ $url }}">{{ $name }}</a>
       {{ end }}
-
-      <div class="nav-divider"></div>
-
-      <a class="nav-link{{ if eq .Title "About" }} active{{ end }}" href="/about/">About</a>
     </nav>
   </div>
 
