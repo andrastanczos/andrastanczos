@@ -10,17 +10,21 @@
       {{- $parts = $parts | append (printf "ƒ/%.4g" .) -}}
     {{- end -}}
     {{- with .Tags.ExposureTime -}}
-      {{- if lt . 1.0 -}}
-        {{- $parts = $parts | append (printf "1/%ds" (int (math.Round (div 1.0 .)))) -}}
-      {{- else -}}
-        {{- $parts = $parts | append (printf "%.4gs" .) -}}
+      {{- $val := float . -}}
+      {{- if gt $val 0.0 -}}
+        {{- if lt $val 1.0 -}}
+          {{- $parts = $parts | append (printf "1/%ds" (int (math.Round (div 1.0 $val)))) -}}
+        {{- else -}}
+          {{- $parts = $parts | append (printf "%.4gs" $val) -}}
+        {{- end -}}
       {{- end -}}
     {{- end -}}
     {{- with .Tags.ISOSpeedRatings -}}
-      {{- $parts = $parts | append (printf "ISO %d" (int .)) -}}
+      {{- $parts = $parts | append (printf "ISO %v" .) -}}
     {{- end -}}
     {{- with .Tags.FocalLength -}}
-      {{- $parts = $parts | append (printf "%dmm" (int (math.Round .))) -}}
+      {{- $val := float . -}}
+      {{- $parts = $parts | append (printf "%dmm" (int (math.Round $val))) -}}
     {{- end -}}
     {{- $exif = delimit $parts " · " -}}
   {{- end -}}
